@@ -8,6 +8,11 @@ const routes: RouteRecordRaw[] = [
     name: 'home',
     component: HomeView,
   },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: (): Promise<any> => import('@/views/AuthView.vue')
+  }
 ]
 
 const router: Router = createRouter({
