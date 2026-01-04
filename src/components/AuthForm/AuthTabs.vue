@@ -5,6 +5,7 @@ import TabList from 'primevue/tablist';
 import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
+import LoginForm from './LoginForm.vue';
 
 const activeTab = ref('signin');
 </script>
@@ -16,26 +17,10 @@ const activeTab = ref('signin');
             <Tab value="signup">Registrieren</Tab>
         </TabList>
         <TabPanels>
-            <TabPanel value="signin" class="text-black">Anmelden(Text)</TabPanel>
+            <TabPanel value="signin" class="text-black"><LoginForm /></TabPanel>
             <TabPanel value="signup" class="text-black">Registrieren(Text)</TabPanel>
         </TabPanels>
     </Tabs>
 </template>
 
-<style scoped>
-:deep(.p-tabs) {
-    background-color: transparent !important;
-}
-
-:deep(.p-tablist) {
-    background-color: transparent !important;
-}
-
-:deep(.p-tabpanels) {
-    background-color: transparent !important;
-}
-
-:deep(.p-tabpanel) {
-    background-color: transparent !important;
-}
-</style>
+<style scoped></style>
