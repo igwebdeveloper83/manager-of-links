@@ -7,6 +7,8 @@
         email: '',
         password: ''
     });
+
+    const emits = defineEmits(['resetPassword']);
    
 </script>
 
@@ -18,7 +20,7 @@
         <div class="mb-3">
             <InputText name="password" type="password" v-model="formData.password" placeholder="Password" class="w-full" />
         </div>
-        <span class="cursor-pointer block mb-3">Passwort vergessen?</span>
+        <span class="cursor-pointer block mb-3" @click="emits('resetPassword')">Passwort vergessen?</span>
         <div class="grid grid-cols-2 gap-3">
             <Button type="submit" label="Anmelden" class="w-full" />
             <Button type="submit" label="Github" icon="pi pi-github" class="w-full" severity="contrast" />
