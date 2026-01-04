@@ -2,22 +2,37 @@
     import { ref } from 'vue';
     import InputText from 'primevue/inputtext';
     import Button from 'primevue/button';
+    import { z } from 'zod';
+    import { zodResolver } from '@primevue/forms/resolvers/zod';
+    import { Form } from '@primevue/forms';
+    import Message from 'primevue/message';
 
     const formData = ref({
         email: '',
     });
+
+    const rules = z.object({
+        email: z.email({message: 'invalid email'}),
+    })
+
+    const resolver = zodResolver(rules);
+
+    const submitForm = async ({ valid }: { valid: boolean }) => {
+        console.log(valid);
+   };
    
 </script>
 
 <template>
-    <form>
+    <Form v-slot="$form" :initial-values="formData" :resolver="resolver" :validate-on-blur="true" :validate-on-value-update="false" @submit="submitForm">
         <div class="mb-3">
             <InputText name="email" type="text" v-model="formData.email" placeholder="Email" class="w-full" />
+            <Message v-if="$form.email?.invalid" severity="error" variant="simple" size="small">{{ $form.email.error.message }}</Message>
         </div>
         <div class="grid">
             <Button type="submit" label="Reset Password" class="w-full" />
         </div>
-    </form>
+    </Form>
 </template>
 
 <style scoped></style>
