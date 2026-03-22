@@ -6,9 +6,8 @@
     import { zodResolver } from '@primevue/forms/resolvers/zod';
     import { Form } from '@primevue/forms';
     import Message from 'primevue/message';
-    import Toast from 'primevue/toast';
-    import { useToast } from 'primevue/usetoast';
     import { supabase } from '../../supabase'
+    import { useToastNotifications } from '../../composables/useToastNotifications'
 
 
 
@@ -21,36 +20,35 @@
     const rules = z.object({
         firstname: z.string().min(3, {message: 'put your name!'}),
         email: z.email({message: 'invalid email'}),
-        password: z.string().min(6, {message: 'must be at least 6 characters'})
+        password: z.string().min(5, {message: 'must be at least 6 characters'})
     })
 
     const resolver = zodResolver(rules);
 
-    const toast = useToast();
+    const { showToast } = useToastNotifications()
 
     const submitForm = async ({ valid }: { valid: boolean }) => {
+        if (!valid) return
 
         const { data, error } = await supabase.auth.signUp({
             email: formData.value.email,
             password: formData.value.password,
-        });
-        console.log(data, error);
-        
-        if(error) {
-            toast.add({ severity: 'error', summary: 'Registration', detail: error.message, life: 3000 });
-            return;
+            options: { data: { first_name: formData.value.firstname } },
+        })
+
+        if (error) {
+            showToast('error', 'Registration', error.message)
+            return
         }
 
-        if(!valid) return
-        toast.add({ severity: 'success', summary: 'Registration', detail: 'Succesufull', life: 3000 });
-   };
+        showToast('success', 'Registration', 'Successful')
+    }
 
 
    
 </script>
 
 <template>
-    <Toast/>
     <Form v-slot="$form" :initial-values="formData" :resolver="resolver" :validate-on-blur="true" :validate-on-value-update="false" @submit="submitForm">
         <div class="mb-3">
             <InputText name="email" type="email" v-model="formData.email" placeholder="Email" class="w-full" />
