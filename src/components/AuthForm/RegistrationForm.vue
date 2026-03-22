@@ -8,6 +8,7 @@
     import Message from 'primevue/message';
     import Toast from 'primevue/toast';
     import { useToast } from 'primevue/usetoast';
+    import { supabase } from '../../supabase'
 
 
 
@@ -28,6 +29,18 @@
     const toast = useToast();
 
     const submitForm = async ({ valid }: { valid: boolean }) => {
+
+        const { data, error } = await supabase.auth.signUp({
+            email: formData.value.email,
+            password: formData.value.password,
+        });
+        console.log(data, error);
+        
+        if(error) {
+            toast.add({ severity: 'error', summary: 'Registration', detail: error.message, life: 3000 });
+            return;
+        }
+
         if(!valid) return
         toast.add({ severity: 'success', summary: 'Registration', detail: 'Succesufull', life: 3000 });
    };
