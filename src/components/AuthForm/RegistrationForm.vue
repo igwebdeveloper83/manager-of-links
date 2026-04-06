@@ -6,10 +6,11 @@
     import { zodResolver } from '@primevue/forms/resolvers/zod';
     import { Form } from '@primevue/forms';
     import Message from 'primevue/message';
-    import { supabase } from '../../supabase'
     import { useToastNotifications } from '../../composables/useToastNotifications'
+    import { useAuth } from '../../composables/useAuth'
 
 
+    const { loading, errorMessage, signUp } = useAuth();
 
     const formData = ref({
         email: '',
@@ -30,18 +31,12 @@
     const submitForm = async ({ valid }: { valid: boolean }) => {
         if (!valid) return
 
-        const { data, error } = await supabase.auth.signUp({
-            email: formData.value.email,
-            password: formData.value.password,
-            options: { data: { first_name: formData.value.firstname } },
-        })
-
-        if (error) {
+        try {
+            await signUp(formData.value.email, formData.value.password);
+        } catch (error: any) {
             showToast('error', 'Registration', error.message)
             return
         }
-
-        showToast('success', 'Registration', 'Successful')
     }
 
 
@@ -63,7 +58,7 @@
             <Message v-if="$form.firstname?.invalid" severity="error" variant="simple" size="small">{{ $form.firstname.error.message }}</Message>
         </div>
         <div class="grid grid-cols-2 gap-3">
-            <Button type="submit" label="Registrieren" class="w-full" />
+            <Button type="submit" label="Registrieren" class="w-full" :loading="loading" />
             <Button type="submit" label="Github" icon="pi pi-github" class="w-full" severity="contrast" />
         </div>
     </Form>
