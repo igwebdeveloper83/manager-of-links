@@ -21,9 +21,23 @@ export function useAuth() {
         });
     }
 
+    const signIn = async (email: string, password: string) => {
+
+        return await handleRequest(async () => {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
+            if (error) throw error;
+
+            return data;
+        });
+    }
+
     return {
         loading,
         errorMessage,
         signUp,
+        signIn
     }
 }

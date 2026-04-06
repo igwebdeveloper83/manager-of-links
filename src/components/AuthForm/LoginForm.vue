@@ -6,6 +6,12 @@
     import InputText from 'primevue/inputtext';
     import Button from 'primevue/button';
     import Message from 'primevue/message';
+    import { useToastNotifications } from '../../composables/useToastNotifications'
+    import { useAuth } from '../../composables/useAuth'
+
+    const { showToast } = useToastNotifications()
+    const { loading, errorMessage, signIn} = useAuth();
+
 
 
     const formData = ref({
@@ -23,8 +29,16 @@
    const resolver = zodResolver(rules);
 
    const submitForm = async ({ valid }: { valid: boolean }) => {
-       console.log(valid);
-   };
+        if (!valid) return
+
+        try {
+            await signIn(formData.value.email, formData.value.password);
+        } catch (error: any) {
+            showToast('error', 'Anmeldung', errorMessage.value)
+            return
+        }
+    }
+
 </script>
 
 <template>

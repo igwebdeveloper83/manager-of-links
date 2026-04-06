@@ -9,8 +9,9 @@
     import { useToastNotifications } from '../../composables/useToastNotifications'
     import { useAuth } from '../../composables/useAuth'
 
-
+    const { showToast } = useToastNotifications()
     const { loading, errorMessage, signUp } = useAuth();
+
 
     const formData = ref({
         email: '',
@@ -25,8 +26,6 @@
     })
 
     const resolver = zodResolver(rules);
-
-    const { showToast } = useToastNotifications()
 
     const submitForm = async ({ valid }: { valid: boolean }) => {
         if (!valid) return
