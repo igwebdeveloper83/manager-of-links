@@ -32,9 +32,9 @@
         if (!valid) return
 
         try {
-            await signUp(formData.value.email, formData.value.password);
+            await signUp(formData.value.email, formData.value.password, formData.value.firstname);
         } catch (error: any) {
-            showToast('error', 'Registration', error.message)
+            showToast('error', 'Registration', errorMessage.value)
             return
         }
     }
