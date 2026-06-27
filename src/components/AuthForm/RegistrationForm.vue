@@ -31,10 +31,10 @@
         if (!valid) return
 
         try {
-            await signUp(formData.value.email, formData.value.password, formData.value.firstname);
-        } catch (error: any) {
-            showToast('error', 'Registration', errorMessage.value)
-            return
+            await signUp(formData.value.email, formData.value.password, formData.value.firstname)
+            showToast('success', 'Registration', 'Account created successfully')
+        } catch {
+            showToast('error', 'Registration', errorMessage.value || 'Registration failed')
         }
     }
 

@@ -7,12 +7,17 @@ import { useToast } from 'primevue/usetoast'
 export function useToastNotifications() {
   const toast = useToast()
 
-  const showToast = (type: any, summary: any, detail: string ='something goes wrong') => {
+  const showToast = (
+    type: string,
+    summary: string,
+    detail = 'Something went wrong',
+    life = 3000,
+  ) => {
     toast.add({
       severity: type,
       summary,
       detail,
-      life: 3000,
+      life,
     })
   }
   return { showToast }

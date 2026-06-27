@@ -12,6 +12,11 @@ const routes: RouteRecordRaw[] = [
     path: '/auth',
     name: 'auth',
     component: (): Promise<any> => import('@/views/AuthView.vue')
+  },
+  {
+    path: '/reset-password',
+    name: 'reset-password',
+    component: (): Promise<any> => import('@/views/ResetPassword.vue')
   }
 ]
 
