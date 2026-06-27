@@ -10,7 +10,7 @@
     import { useAuth } from '../../composables/useAuth'
 
     const { showToast } = useToastNotifications()
-    const { loading, errorMessage, signIn} = useAuth();
+    const { loading, errorMessage, signIn, signInWithGithub} = useAuth();
 
 
 
@@ -54,7 +54,7 @@
         <span class="cursor-pointer block mb-3" @click="emits('resetPassword')">Passwort vergessen?</span>
         <div class="grid grid-cols-2 gap-3">
             <Button type="submit" label="Anmelden" class="w-full" />
-            <Button type="submit" label="Github" icon="pi pi-github" class="w-full" severity="contrast" />
+            <Button label="Github" icon="pi pi-github" class="w-full" severity="contrast" @click="signInWithGithub" />
         </div>
     </Form>
 </template>
