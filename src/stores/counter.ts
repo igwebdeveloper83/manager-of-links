@@ -1,13 +1,17 @@
-import { ref, computed, type Ref, type ComputedRef } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import type { User } from '@supabase/supabase-js'
+import { supabase } from '@/supabase'
 
-export const useCounterStore = defineStore('counter', () => {
-  const count: Ref<number> = ref<number>(0)
-  const doubleCount: ComputedRef<number> = computed<number>(() => count.value * 2)
-  
-  function increment(): void {
-    count.value++
+export const useUserStore = defineStore('auth', () => {
+  const user = ref<User | null>(null)
+
+  async function getUser() {
+    const { data } = await supabase.auth.getUser()
+    console.log(data)
+
+    user.value = data.user ?? null
   }
 
-  return { count, doubleCount, increment }
+  return { user, getUser }
 })

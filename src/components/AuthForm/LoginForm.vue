@@ -1,6 +1,7 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import { z } from 'zod';
+    import { useUserStore } from '@/stores/counter';
     import { zodResolver } from '@primevue/forms/resolvers/zod';
     import { Form } from '@primevue/forms';
     import InputText from 'primevue/inputtext';
@@ -8,11 +9,14 @@
     import Message from 'primevue/message';
     import { useToastNotifications } from '../../composables/useToastNotifications'
     import { useAuth } from '../../composables/useAuth'
+    import { useRouter } from 'vue-router';
 
     const { showToast } = useToastNotifications()
     const { loading, errorMessage, signIn, signInWithGithub} = useAuth();
 
+    const router = useRouter()
 
+    const authStore = useUserStore()
 
     const formData = ref({
         email: '',
@@ -33,6 +37,8 @@
 
         try {
             await signIn(formData.value.email, formData.value.password);
+            await authStore.getUser()
+            router.replace({ name: 'home' })
         } catch (error: any) {
             showToast('error', 'Anmeldung', errorMessage.value)
             return
