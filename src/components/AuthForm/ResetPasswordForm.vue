@@ -30,19 +30,7 @@
             showToast('error', 'Reset Password', errorMessage.value)
             return
         }
-            
-            
-            
-            
     }
-   
-   
-   
-   
-   
-   
-   
-   
    
 </script>
 
